@@ -1,5 +1,5 @@
-# scroll-phat-examples
-My collection of scripts that is utilizing Scroll pHAT
+# py-scroll-phat
+My collection of Python scripts that is utilizing Scroll pHAT
 
 I have also created a post on how to kick start with Scroll pHAT on https://tomhudak.github.io/
 
@@ -34,9 +34,9 @@ The pollution is obtained from World's Air Pollution: Real-time Air Quality Inde
 ### Switches
 
 - `--city <city name>` - **required**, the city to locate the weather info
-- `--time` - displays time if provided
-- `--ow-key <api key>` - OpenWeather API key (required for temperature display)
-- `--aqi-key <api key>` - Air Quality API key (required for pollution display)
+- `--time <True|False>` - displays time
+- `--owkey <api key>` - OpenWeather API key (required for temperature display)
+- `--aqikey <api key>` - Air Quality API key (required for pollution display)
 - `--help` - Displays help for command line swiches
 
 ### Usage
@@ -45,6 +45,17 @@ The pollution is obtained from World's Air Pollution: Real-time Air Quality Inde
 python weather.py --city <city name> [--time] [--ow-key <api key>] [--aqi-key <api key>]
 ```
 
-### Contribution
+Example
+```bash
+python weather.py --time True --city Budapest --owkey 12345de2bdf12a123e456acc5a2c3dea --aqikey aff3ea0e8e12a34d2b9a9455bf3bcf1234f6da7a
+```
 
-Found a bug, or are you extending this? Feel free to contatct me, open a PR or an issue!
+### Further improvements
+- Fahrenheit temperature
+- 12h time format
+- Error handling if API keys are wrong
+- Error handling if the input city is nonexistent
+
+## Contribution
+
+Found a bug, or do you want to improve the above scripts? Feel free to contact me, open a PR or an issue!
