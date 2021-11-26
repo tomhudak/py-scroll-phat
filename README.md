@@ -7,7 +7,7 @@ I have also created a post on how to kick start with Scroll pHAT at https://tomh
 
 Displays scrolling text that shows the current time of the Raspberry Pi in HH:MM (24hr) format.
 
-### Usage
+### Usage
 
 ```bash
 python clock.py
