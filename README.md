@@ -1,7 +1,7 @@
 # py-scroll-phat
 My collection of Python scripts that is utilizing Scroll pHAT
 
-I have also created a post on how to kick start with Scroll pHAT on https://tomhudak.github.io/
+I have also created a post on how to kick start with Scroll pHAT at https://tomhudak.github.io/blog/2021-11-25-create-a-digital-clock-from-scratch-with-scroll-phat-and-raspberry-pi/
 
 ## clock.py
 
