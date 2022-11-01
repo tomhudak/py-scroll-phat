@@ -16,7 +16,6 @@ python clock.py
 For info on setup please check out my post linked above.
 
 ## weather.py
-**Going to be uploaded soon.**
 
 Displays a scrolling text that shows 
 - the current temperature (in celsius) 
@@ -35,7 +34,8 @@ The pollution is obtained from World's Air Pollution: Real-time Air Quality Inde
 
 - `--city <city name>` - **required**, the city to locate the weather info
 - `--time <True|False>` - displays time
-- `--owkey <api key>` - OpenWeather API key (required for temperature display)
+- `--idokep <True|False>` - Use idokep.hu for fetching temperature
+- `--owkey <api key>` - OpenWeather API key (required for temperature display if --idokep is not True)
 - `--aqikey <api key>` - Air Quality API key (required for pollution display)
 - `--help` - Displays help for command line swiches
 
