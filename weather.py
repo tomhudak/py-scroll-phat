@@ -1,9 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import requests
 import sys
 import time
+from bs4 import BeautifulSoup as bs
+from urllib.request import (
+    urlopen)
+import urllib.parse
 
 import scrollphat
 
@@ -11,6 +15,7 @@ import scrollphat
 parser = argparse.ArgumentParser()
 parser.add_argument('--time', type=bool, help='If enabled, shows time in 24hr HH:MM format', required=True)
 parser.add_argument('--city', type=str, help='Name of the city to get weather data from', required=True)
+parser.add_argument('--idokep', type=bool, help='If enabled uses idokep.hu as a weather provider instead of OpenWeather')
 parser.add_argument('--owkey', type=str, help='OpenWeather API key')
 parser.add_argument('--aqikey', type=str, help='Air Quality Index API key')
 args = parser.parse_args()
@@ -25,9 +30,22 @@ refresh_interval = 300
 scrollphat.set_brightness(1)
 
 def get_temp():
-    if not (args.owkey):
-        return ''
+    if(args.idokep):
+        return get_idokep_temp()
+    
+    if(args.owkey):
+        return get_openweather_temp()
 
+    return ''
+    
+def get_idokep_temp():
+    url = "https://www.idokep.hu/idojaras/" + urllib.parse.quote(args.city)
+    soup = bs(urlopen(url), "html.parser")
+    div = soup.find("div", {"class": "ik current-temperature"})
+    temp = "".join(div.text.split())
+    return temp[:-2] + chr(248) + "C"
+
+def get_openweather_temp():
     openWeatherApiUrl = 'https://api.openweathermap.org/data/2.5/weather'
     urlParams = {
         'q': args.city,
@@ -71,7 +89,7 @@ def scroll_once(text):
     length = scrollphat.buffer_len()
     for i in range(length):
         scrollphat.scroll()
-    	time.sleep(0.1)
+        time.sleep(0.1)
 #    scrollphat.clear()
 
 
