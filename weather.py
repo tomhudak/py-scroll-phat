@@ -21,7 +21,7 @@ parser.add_argument('--aqikey', type=str, help='Air Quality Index API key. Has p
 parser.add_argument('--scsensorid', type=str, help='Sensor Id to fetch from sensor.community')
 args = parser.parse_args()
 
-if not(args.owkey or args.aqikey):
+if not(args.owkey or args.aqikey or args.idokep or args.scsensorid):
     parser.error('You need to specify at least one API key to show weather data')
 
 print('Scroll pHAT - Weather started...Press Ctrl+C to exit!')
@@ -114,7 +114,7 @@ def scroll_once(text):
     for i in range(length):
         scrollphat.scroll()
         time.sleep(0.1)
-#    scrollphat.clear()
+    scrollphat.clear()
 
 
 
