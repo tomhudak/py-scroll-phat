@@ -17,7 +17,8 @@ parser.add_argument('--time', type=bool, help='If enabled, shows time in 24hr HH
 parser.add_argument('--city', type=str, help='Name of the city to get weather data from', required=True)
 parser.add_argument('--idokep', type=bool, help='If enabled uses idokep.hu as a weather provider instead of OpenWeather')
 parser.add_argument('--owkey', type=str, help='OpenWeather API key')
-parser.add_argument('--aqikey', type=str, help='Air Quality Index API key')
+parser.add_argument('--aqikey', type=str, help='Air Quality Index API key. Has precedence over sensor.community API.')
+parser.add_argument('--scsensorid', type=str, help='Sensor Id to fetch from sensor.community')
 args = parser.parse_args()
 
 if not(args.owkey or args.aqikey):
@@ -60,11 +61,17 @@ def get_openweather_temp():
 
     temp = data['main']['temp']
     return str(int(round(temp, 0))) + chr(248) + "C"
-  
-def get_pollution():
-    if not (args.aqikey):
-        return ''
 
+def get_pollution():
+    if(args.aqikey):
+        return get_aqi_pollution()
+    
+    if(args.scsensorid):
+        return get_sensor_community_pollution()
+
+    return ''
+  
+def get_aqi_pollution():
     waqiApiUrl = 'https://api.waqi.info/feed/' + args.city + '/'
     urlParams = {
         'token': args.aqikey,
@@ -76,6 +83,23 @@ def get_pollution():
         return ''
 
     pollution = data['data']['iaqi']['pm10']['v']
+    return "pm" + str(pollution)
+
+def get_sensor_community_pollution():
+    scApiUrl = 'https://data.sensor.community/airrohr/v1/sensor/' + args.scsensorid + '/'
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36',
+    }
+
+    try:
+        r = requests.get(url = scApiUrl, headers = headers)
+        data = r.json()
+    except Exception:
+        return ''
+
+    pollution = data[0]['sensordatavalues'][0]['value'][:-3]
+    
     return "pm" + str(pollution)
 
 def get_time(current_time):
