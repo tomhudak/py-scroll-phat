@@ -5,8 +5,7 @@ import requests
 import sys
 import time
 from bs4 import BeautifulSoup as bs
-from urllib.request import (
-    urlopen)
+from urllib.request import urlopen, Request
 import urllib.parse
 
 import scrollphat
@@ -41,7 +40,12 @@ def get_temp():
     
 def get_idokep_temp():
     url = "https://www.idokep.hu/idojaras/" + urllib.parse.quote(args.city)
-    soup = bs(urlopen(url), "html.parser")
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    }
+    req = Request(url, headers=headers)
+    response = urlopen(req)
+    soup = bs(response, "html.parser")
     div = soup.find("div", {"class": "ik current-temperature"})
     temp = "".join(div.text.split())
     return temp[:-2] + chr(248) + "C"
